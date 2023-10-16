@@ -4,16 +4,9 @@ namespace CitasClinicas.Operaciones
 {
     public class OperacionesPaciente
     {
-        public Paciente CrearCitaPaciente(out Medico medico)
+        public Paciente CrearCitaPaciente(Medico medico)
         {   
             Paciente paciente = new Paciente();
-
-            Medico medicoNuevo = new Medico{
-                Cedula = "2738191121",
-                NombreCompleto = "Jesus Hernán Gonzalez Rámirez",
-                Oficina = "404",
-            };
-
             try
             {
                 Console.WriteLine("Ingrese la cédula del paciente: ");
@@ -28,12 +21,11 @@ namespace CitasClinicas.Operaciones
                 Console.WriteLine("Ingrese el género del paciente( Masculino(M) / Femenino(F) ): ");
                 paciente.Genero = Console.ReadLine();
 
-                Console.WriteLine("Ingrese el tipo de paciente( Afiliado(F) / Prepagado(P) ): ");
+                Console.WriteLine("Ingrese el tipo de paciente( Afiliado(A) / Prepagado(P) ): ");
                 paciente.Tipo = Console.ReadLine();
 
-                paciente.MedicoAsignado = medicoNuevo;
-                paciente.OficinaCita = medicoNuevo.Oficina;
-                medico = medicoNuevo;
+                paciente.MedicoAsignado = medico;
+                paciente.OficinaCita = medico.Oficina;
 
                 Console.WriteLine("Ingrese la fecha de la cita del paciente en el siguiente formato( día/mes/año ): ");
                 paciente.FechaHoraCita = DateTime.Parse(Console.ReadLine());
@@ -50,7 +42,6 @@ namespace CitasClinicas.Operaciones
             catch (Exception e)
             {
                 Debug.WriteLine("Ocurrió un error al ingresar al paciente: " + e.Message);
-                medico = medicoNuevo;
                 return paciente;
             }
         }
@@ -95,9 +86,7 @@ namespace CitasClinicas.Operaciones
                         Console.WriteLine("La cita del paciente fue cancelada con éxito.");
                     }
                 }
-            }
-            else
-            {
+            } else {
                 Console.WriteLine($"Ingresa un valor válido para la cédula");
             }
         }
@@ -117,7 +106,7 @@ namespace CitasClinicas.Operaciones
                     + $"Médico asignado al paciente: {paciente.MedicoAsignado.NombreCompleto}\n"
                     + $"Fecha y hora de la cita: {paciente.FechaHoraCita}\n"
                     + $"Oficina de la cita: {paciente.MedicoAsignado.Oficina}\n"
-                    + $"Estado de la cita: {paciente.FechaHoraCita}"
+                    + $"Estado de la cita: {paciente.FechaHoraCita}\n"
                     + "----------------------------------------------------------------------------"
                 );
             }
@@ -133,8 +122,7 @@ namespace CitasClinicas.Operaciones
                 if (!string.IsNullOrEmpty(cedulaPaciente))
                 {
                     Paciente? pacienteEstado = medico.Pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
-                    if (pacienteEstado != null)
-                    {
+                    if (pacienteEstado != null){
                         Console.WriteLine($"El estado de la cita del paciente {pacienteEstado.NombreCompleto} es: {pacienteEstado.EstadoCita}");
                     } else {
                         Console.WriteLine($"La cédula {cedulaPaciente} no coincide con algún paciente");

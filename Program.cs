@@ -7,7 +7,11 @@ namespace CitasClinicas
         static void Main(string[] args)
         {
             OperacionesPaciente operaciones = new OperacionesPaciente();
-            Medico medico = new Medico{};
+            Medico medico = new Medico{
+                Cedula = "2738191121",
+                NombreCompleto = "Jesus Hernán Gonzalez Rámirez",
+                Oficina = "404",
+            };
             string respuesta = "0";
             string opcionCitas;
 
@@ -39,10 +43,9 @@ namespace CitasClinicas
 
                     // Creación de Citas
                     if (opcionCitas == "1")
-                    {
+                    {   
                         Console.WriteLine("Sigue con las instrucciones del Sistema para crear la cita.");
-                        Paciente paciente = new Paciente();
-                        paciente = operaciones.CrearCitaPaciente(out medico);
+                        Paciente paciente = operaciones.CrearCitaPaciente(medico);
                         bool registroExitoso = paciente.ValidarObjPaciente(paciente);
 
                         if (registroExitoso)
@@ -77,10 +80,7 @@ namespace CitasClinicas
 
                     // Salir al menú Principal
                     if (opcionCitas == "4")
-                    {
                         respuesta = "0";
-                    }
-
                 }
 
                 while(respuesta == "2")
