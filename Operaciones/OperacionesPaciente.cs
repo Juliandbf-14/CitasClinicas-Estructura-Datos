@@ -133,5 +133,38 @@ namespace CitasClinicas.Operaciones
                 }
             } while (string.IsNullOrEmpty(cedulaPaciente));
         }
+
+        public void AtenderCitaPaciente(Medico medico){
+            string? cedulaPaciente;
+            do
+            {
+                Console.WriteLine("Ingrese la cédula del paciente:");
+                cedulaPaciente = Console.ReadLine();
+
+                if (!string.IsNullOrEmpty(cedulaPaciente))
+                {
+                    Paciente? paciente = medico.Pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
+                    if (paciente != null){
+                        
+                        // Validar que sea el primero en la lista
+                        bool swPaciente = medico.Pacientes[0] == paciente;
+                        if(swPaciente){
+                            medico.Pacientes[0].EstadoCita = "atendida";
+                            paciente = medico.Pacientes[0];
+                            // medico.Pacientes = medico.Pacientes.Where(x => x.EstadoCita == "asignada").ToList();
+                            Console.WriteLine($"\nLa cita del paciente {paciente.NombreCompleto} paso al estado: {paciente.EstadoCita}, por ende se eliminará de la lista de espera de pacientes");
+                            medico.Pacientes.Remove(medico.Pacientes[0]);
+                        } else {
+                            Console.WriteLine($"\nEl paciente con nombre {paciente.NombreCompleto} esta en el turno {medico.Pacientes.IndexOf(paciente) + 1}, por ende no puede ser atendido en estos momentos");
+                        }
+                    } else {
+                        Console.WriteLine($"La cédula {cedulaPaciente} no coincide con algún paciente");
+                    }
+                } else {
+                    Console.WriteLine("\nNo puedes dejar el campo de la cédula vacío.");
+                    Console.WriteLine("\nInténtalo de nuevo...");
+                }
+            } while (string.IsNullOrEmpty(cedulaPaciente));
+        }
     }
 }

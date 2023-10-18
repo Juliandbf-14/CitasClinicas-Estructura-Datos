@@ -18,7 +18,7 @@ namespace CitasClinicas
 
             while (respuesta == "0" && respuesta != string.Empty)
             {
-                Console.WriteLine("______________________________________________________________");
+                Console.WriteLine("\n______________________________________________________________");
                 Console.WriteLine("Bienvenido al menú de opciones de la Clínica de las Americas");
                 Console.WriteLine("1. Gestión de Citas");
                 Console.WriteLine("2. Manejo de Pacientes");
@@ -30,7 +30,7 @@ namespace CitasClinicas
 
                 while (respuesta == "1")
                 {   
-                    Console.WriteLine("_____________________________");
+                    Console.WriteLine("\n_____________________________");
                     Console.WriteLine("Menú de Gestión de Citas");
                     Console.WriteLine("1. Crear cita.");
                     Console.WriteLine("2. Modificar cita.");
@@ -64,9 +64,9 @@ namespace CitasClinicas
                         Paciente? pacienteCoincidente = operaciones.ModificarCitaPaciente(medico.Pacientes);
                         if (pacienteCoincidente == null)
                         {
-                            Console.WriteLine("El paciente no pudo ser encontrado, por ende no se puede modificar su cita.");
+                            Console.WriteLine("\nEl paciente no pudo ser encontrado, por ende no se puede modificar su cita.");
                         } else {
-                            Console.WriteLine($"La fecha del paciente con cédula: {pacienteCoincidente.Cedula} y nombre: {pacienteCoincidente.NombreCompleto} fue modificada con éxito.");
+                            Console.WriteLine($"\nLa fecha del paciente con cédula: {pacienteCoincidente.Cedula} y nombre: {pacienteCoincidente.NombreCompleto} fue modificada con éxito.");
                         }
                         respuesta = "1";
                     }
@@ -85,7 +85,7 @@ namespace CitasClinicas
 
                 while(respuesta == "2")
                 {
-                    Console.WriteLine("_____________________________");
+                    Console.WriteLine("\n_____________________________");
                     Console.WriteLine("1. Ver lista de pacientes");
 					Console.WriteLine("2. Estado de la cita del Paciente");
 					Console.WriteLine("3. Atender paciente");
@@ -115,6 +115,10 @@ namespace CitasClinicas
                     }
 
                     // TODO: Agregar método para atender las citas
+                    if(opcionPacientes == "3"){
+                        operaciones.AtenderCitaPaciente(medico);
+                        respuesta = "2";
+                    }
 
                     if(opcionPacientes == "4"){
                         respuesta = "0";
