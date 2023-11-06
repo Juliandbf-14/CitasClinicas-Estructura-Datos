@@ -2,11 +2,11 @@ namespace CitasClinicas
 {
     public class Paciente
     {
-        public string? Cedula { get; set; } = string.Empty;
+        public int? Cedula { get; set; }
 
         public string? NombreCompleto { get; set; } = string.Empty;
 
-        public string? Edad { get; set; } = string.Empty;
+        public int? Edad { get; set; }
 
         public string? Genero { get; set; } = string.Empty;
 
@@ -21,9 +21,16 @@ namespace CitasClinicas
         public string? EstadoCita { get; set; } = "asignada";
 
         public bool ValidarObjPaciente(Paciente objPaciente)
-        {
-            if (!string.IsNullOrEmpty(objPaciente.Cedula) && !string.IsNullOrEmpty(objPaciente.NombreCompleto) && !string.IsNullOrEmpty(objPaciente.Edad) && !string.IsNullOrEmpty(objPaciente.Genero) && !string.IsNullOrEmpty(objPaciente.Tipo) && objPaciente.MedicoAsignado != null && objPaciente.FechaHoraCita.HasValue)
-            {
+        {   
+            bool validarCedula = objPaciente.Cedula != 0 && objPaciente.Cedula != null;
+            bool validarNombre = !string.IsNullOrEmpty(objPaciente.NombreCompleto);
+            bool validarEdad = objPaciente.Edad != 0 && objPaciente.Edad != null;
+            bool validarGenero = !string.IsNullOrEmpty(objPaciente.Genero) && (objPaciente.Genero == "M" || objPaciente.Genero == "F");
+            bool validarTipo = !string.IsNullOrEmpty(objPaciente.Tipo) && (objPaciente.Tipo == "A" || objPaciente.Tipo == "P");
+            bool validarMedico = objPaciente.MedicoAsignado != null;
+            bool validarFecha = objPaciente.FechaHoraCita.HasValue;
+
+            if (validarCedula && validarNombre && validarEdad && validarGenero && validarTipo && validarMedico && validarFecha){
                 return true;
             } else{
                 return false;

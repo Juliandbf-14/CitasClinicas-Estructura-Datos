@@ -12,8 +12,8 @@ namespace CitasClinicas
                 NombreCompleto = "Jesus Hernán Gonzalez Rámirez",
                 Oficina = "404",
             };
-            string respuesta = "0";
-            string opcionCitas;
+            string? respuesta = "0";
+            string? opcionCitas;
 
 
             while (respuesta == "0" && respuesta != string.Empty)
@@ -92,7 +92,7 @@ namespace CitasClinicas
                     Console.WriteLine("4. Volver al menú principal");
                     Console.WriteLine("_____________________________");
                     Console.WriteLine("Escoge una opción: ");
-                    string opcionPacientes = Console.ReadLine();
+                    string? opcionPacientes = Console.ReadLine();
 
                     // Ver la lista de los pacientes 
                     if(opcionPacientes == "1"){
@@ -103,7 +103,7 @@ namespace CitasClinicas
                                 operaciones.PacienteToString(itemPaciente);
                             }
                         } else {
-                            Console.WriteLine("No hay citas en este momento");
+                            Console.WriteLine("\nNo hay citas en este momento");
                         }
                         respuesta = "2";
                     }
@@ -114,7 +114,6 @@ namespace CitasClinicas
                         respuesta = "2";
                     }
 
-                    // TODO: Agregar método para atender las citas
                     if(opcionPacientes == "3"){
                         operaciones.AtenderCitaPaciente(medico);
                         respuesta = "2";

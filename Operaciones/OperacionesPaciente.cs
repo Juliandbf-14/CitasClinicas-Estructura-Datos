@@ -5,18 +5,18 @@ namespace CitasClinicas.Operaciones
     public class OperacionesPaciente
     {
         public Paciente CrearCitaPaciente(Medico medico)
-        {   
+        {
             Paciente paciente = new Paciente();
             try
             {
                 Console.WriteLine("Ingrese la cédula del paciente: ");
-                paciente.Cedula = Console.ReadLine();
+                paciente.Cedula = int.Parse(Console.ReadLine());
 
                 Console.WriteLine("Ingrese el nombre completo del paciente: ");
                 paciente.NombreCompleto = Console.ReadLine();
 
                 Console.WriteLine("Ingrese la edad del paciente: ");
-                paciente.Edad = Console.ReadLine();
+                paciente.Edad = int.Parse(Console.ReadLine());
 
                 Console.WriteLine("Ingrese el género del paciente( Masculino(M) / Femenino(F) ): ");
                 paciente.Genero = Console.ReadLine();
@@ -30,7 +30,8 @@ namespace CitasClinicas.Operaciones
                 Console.WriteLine("Ingrese la fecha de la cita del paciente en el siguiente formato( día/mes/año ): ");
                 paciente.FechaHoraCita = DateTime.Parse(Console.ReadLine());
 
-                return new Paciente{
+                return new Paciente
+                {
                     Cedula = paciente.Cedula,
                     NombreCompleto = paciente.NombreCompleto,
                     Edad = paciente.Edad,
@@ -41,53 +42,69 @@ namespace CitasClinicas.Operaciones
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Ocurrió un error al ingresar al paciente: " + e.Message);
+                Console.WriteLine("\nIngreso un valor invalido al momento de crear la cita." + e.Message);
                 return paciente;
             }
         }
 
         public Paciente ModificarCitaPaciente(List<Paciente> pacientes)
         {
-            Paciente? paciente = null;
-            Console.WriteLine("Ingresa la cédula del paciente:");
-            string cedulaPaciente = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(cedulaPaciente))
+            try
             {
-                paciente = pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
-                if (paciente != null)
+                Paciente? paciente = null;
+                Console.WriteLine("Ingresa la cédula del paciente:");
+                int? cedulaPaciente = int.Parse(Console.ReadLine());
+
+                if (cedulaPaciente != 0 && cedulaPaciente != null)
                 {
-                    Console.WriteLine("Ingrese la nueva fecha de la cita del paciente en el siguiente formato( día/mes/año ):");
-                    DateTime nuevaFecha = DateTime.Parse(Console.ReadLine());
-                    paciente.FechaHoraCita = nuevaFecha;
+                    paciente = pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
+                    if (paciente != null)
+                    {
+                        Console.WriteLine("\nIngrese la nueva fecha de la cita del paciente en el siguiente formato( día/mes/año ):");
+                        DateTime nuevaFecha = DateTime.Parse(Console.ReadLine());
+                        paciente.FechaHoraCita = nuevaFecha;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nNo existe un paciente que coincida con esa información.");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("No existe un paciente que coincida con esa información.");
-                }
+                return paciente;
             }
-            return paciente;
+            catch (Exception)
+            {
+                Console.WriteLine("\nHubo un error al procesar la solicitud, vuelve a intentarlo..");
+                return null;
+            }
         }
 
         public void EliminarCitaPaciente(List<Paciente> pacientes)
         {
-            Paciente? paciente = null;
-            Console.WriteLine("Ingresa la cédula del paciente:");
-            string cedulaPaciente = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(cedulaPaciente))
+            try
             {
-                paciente = pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
-                if (paciente != null)
+                Paciente? paciente = null;
+                Console.WriteLine("Ingresa la cédula del paciente:");
+                int? cedulaPaciente = int.Parse(Console.ReadLine());
+
+                if (cedulaPaciente != 0 && cedulaPaciente != null)
                 {
-                    PacienteToString(paciente);
-                    if (pacientes.Remove(paciente))
+                    paciente = pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
+                    if (paciente != null)
                     {
-                        Console.WriteLine("La cita del paciente fue cancelada con éxito.");
+                        if (pacientes.Remove(paciente))
+                        {
+                            Console.WriteLine("\nLa cita del paciente fue cancelada con éxito!");
+                        }
                     }
                 }
-            } else {
-                Console.WriteLine($"Ingresa un valor válido para la cédula");
+                else
+                {
+                    Console.WriteLine("\nIngresa un valor válido para la cédula");
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("\nHubo un error al procesar la solicitud, vuelve a intentarlo..");
             }
         }
 
@@ -112,59 +129,88 @@ namespace CitasClinicas.Operaciones
             }
         }
 
-        public void EstadoCitaPaciente(Medico medico){
-            string? cedulaPaciente;
-            do
+        public void EstadoCitaPaciente(Medico medico)
+        {
+            try
             {
-                Console.WriteLine("Ingrese la cédula del paciente:");
-                cedulaPaciente = Console.ReadLine();
-
-                if (!string.IsNullOrEmpty(cedulaPaciente))
+                int? cedulaPaciente;
+                do
                 {
-                    Paciente? pacienteEstado = medico.Pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
-                    if (pacienteEstado != null){
-                        Console.WriteLine($"El estado de la cita del paciente {pacienteEstado.NombreCompleto} es: {pacienteEstado.EstadoCita}");
-                    } else {
-                        Console.WriteLine($"La cédula {cedulaPaciente} no coincide con algún paciente");
+                    Console.WriteLine("Ingrese la cédula del paciente:");
+                    cedulaPaciente = int.Parse(Console.ReadLine());
+
+                    if (cedulaPaciente != 0 && cedulaPaciente != null)
+                    {
+                        Paciente? pacienteEstado = medico.Pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
+                        if (pacienteEstado != null)
+                        {
+                            Console.WriteLine($"\nEl estado de la cita del paciente {pacienteEstado.NombreCompleto} es: {pacienteEstado.EstadoCita}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"La cédula {cedulaPaciente} no coincide con algún paciente");
+                        }
                     }
-                } else {
-                    Console.WriteLine("No puedes dejar el campo de la cédula vacío.");
-                    Console.WriteLine("Inténtalo de nuevo...");
-                }
-            } while (string.IsNullOrEmpty(cedulaPaciente));
+                    else
+                    {
+                        Console.WriteLine("\nNo puedes dejar el campo de la cédula vacío.");
+                        Console.WriteLine("\nInténtalo de nuevo...");
+                    }
+                } while (cedulaPaciente == 0 || cedulaPaciente == null);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("\nHubo un error al procesar la solicitud, vuelve a intentarlo..");
+            }
         }
 
-        public void AtenderCitaPaciente(Medico medico){
-            string? cedulaPaciente;
-            do
+        public void AtenderCitaPaciente(Medico medico)
+        {
+            try
             {
-                Console.WriteLine("Ingrese la cédula del paciente:");
-                cedulaPaciente = Console.ReadLine();
-
-                if (!string.IsNullOrEmpty(cedulaPaciente))
+                int? cedulaPaciente;
+                do
                 {
-                    Paciente? paciente = medico.Pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
-                    if (paciente != null){
-                        
-                        // Validar que sea el primero en la lista
-                        bool swPaciente = medico.Pacientes[0] == paciente;
-                        if(swPaciente){
-                            medico.Pacientes[0].EstadoCita = "atendida";
-                            paciente = medico.Pacientes[0];
-                            // medico.Pacientes = medico.Pacientes.Where(x => x.EstadoCita == "asignada").ToList();
-                            Console.WriteLine($"\nLa cita del paciente {paciente.NombreCompleto} paso al estado: {paciente.EstadoCita}, por ende se eliminará de la lista de espera de pacientes");
-                            medico.Pacientes.Remove(medico.Pacientes[0]);
-                        } else {
-                            Console.WriteLine($"\nEl paciente con nombre {paciente.NombreCompleto} esta en el turno {medico.Pacientes.IndexOf(paciente) + 1}, por ende no puede ser atendido en estos momentos");
+                    Console.WriteLine("Ingrese la cédula del paciente:");
+                    cedulaPaciente = int.Parse(Console.ReadLine());
+
+                    if (cedulaPaciente != 0 && cedulaPaciente != null)
+                    {
+                        Paciente? paciente = medico.Pacientes.FirstOrDefault(x => x.Cedula == cedulaPaciente);
+                        if (paciente != null)
+                        {
+
+                            // Validar que sea el primero en la lista
+                            bool swPaciente = medico.Pacientes[0] == paciente;
+                            if (swPaciente)
+                            {
+                                medico.Pacientes[0].EstadoCita = "atendida";
+                                paciente = medico.Pacientes[0];
+                                // medico.Pacientes = medico.Pacientes.Where(x => x.EstadoCita == "asignada").ToList();
+                                Console.WriteLine($"\nLa cita del paciente {paciente.NombreCompleto} paso al estado: {paciente.EstadoCita}, por ende se eliminará de la lista de espera de pacientes");
+                                medico.Pacientes.Remove(medico.Pacientes[0]);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"\nEl paciente con nombre {paciente.NombreCompleto} esta en el turno {medico.Pacientes.IndexOf(paciente) + 1}, por ende no puede ser atendido en estos momentos");
+                            }
                         }
-                    } else {
-                        Console.WriteLine($"La cédula {cedulaPaciente} no coincide con algún paciente");
+                        else
+                        {
+                            Console.WriteLine($"La cédula {cedulaPaciente} no coincide con algún paciente");
+                        }
                     }
-                } else {
-                    Console.WriteLine("\nNo puedes dejar el campo de la cédula vacío.");
-                    Console.WriteLine("\nInténtalo de nuevo...");
-                }
-            } while (string.IsNullOrEmpty(cedulaPaciente));
+                    else
+                    {
+                        Console.WriteLine("\nNo puedes dejar el campo de la cédula vacío.");
+                        Console.WriteLine("\nInténtalo de nuevo...");
+                    }
+                } while (cedulaPaciente == 0 || cedulaPaciente == null);
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("\nHubo un error al procesar la solicitud, vuelve a intentarlo..");
+            }
         }
     }
 }
