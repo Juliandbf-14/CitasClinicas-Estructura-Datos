@@ -211,7 +211,6 @@ namespace CitasClinicas.Operaciones
             {
                 Console.WriteLine("\nHubo un error al procesar la solicitud, vuelve a intentarlo..");
             }
-            Console.WriteLine("SOY UN ERROR");
         }
     }
 }
